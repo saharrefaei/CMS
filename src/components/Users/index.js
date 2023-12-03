@@ -231,8 +231,15 @@ function GetUsers() {
 export default GetUsers;
 
 const GetUsersContainer = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+margin-left: 40%;
+margin-top: 9%;
+width: 41rem;
+
   .BackMainPage {
-    margin-top: 5%;
+    margin-top: 15%;
   }
   .BorderColorIcon {
     margin-left: 15%;
