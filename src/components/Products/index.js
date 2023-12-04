@@ -1,14 +1,17 @@
-import styled from "styled-components";
+import styledReact from "styled-components";
 import * as React from "react";
+
+import Paper from "@mui/material/Paper";
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import { DataGrid } from '@mui/x-data-grid';
+import Grid from "@mui/material/Grid";
+import { styled } from "@mui/material/styles";
+import ProductChart from './components/ProductChart'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 const style = {
@@ -23,21 +26,30 @@ const style = {
   p: 4,
 };
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
+
 function GetUsers() {
   const [users, setusers] = useState([]);
   const [refresh, setrefresh] = useState(false);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [Title, setTitle] = useState("");
+  const [Price, setPrice] = useState("");
   const [Date, setDate] = useState("");
-  const [Status, setStatus] = useState("");
+  const [Name, setName] = useState("");
   const [useridentication, setuseridentication] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://fir-75f9a-default-rtdb.firebaseio.com/Users.json"
+          "https://fir-75f9a-default-rtdb.firebaseio.com/Products.json"
         );
         const data = await response.json();
   
@@ -60,20 +72,18 @@ function GetUsers() {
   const RemoveHandler = async (userId) => {
     try {
       const response = await fetch(
-        `https://fir-75f9a-default-rtdb.firebaseio.com/Users/${userId}.json`,
+        `https://fir-75f9a-default-rtdb.firebaseio.com/Products/${userId}.json`,
         {
           method: "DELETE",
         }
       );
   
       if (response.ok) {
-        console.log("User deleted successfully");
   
         setrefresh((prev) => !prev, () => {
-          console.log("Refreshed");
         });
       } else {
-        console.error(`Failed to delete user. Status: ${response.status}`);
+        console.error(`Failed to delete user. Name: ${response.Name}`);
       }
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -85,12 +95,12 @@ function GetUsers() {
     console.log(useridentication, "useridentication");
 
     const datas = {
-        Title,
+        Price,
       Date,
-      Status,
+      Name,
     };
     await fetch(
-      `https://fir-75f9a-default-rtdb.firebaseio.com/Users/${useridentication}.json`,
+      `https://fir-75f9a-default-rtdb.firebaseio.com/Products/${useridentication}.json`,
       {
         method: "PUT",
         body: JSON.stringify(datas),
@@ -105,20 +115,20 @@ function GetUsers() {
   const columns = [
     { field: 'id', headerName: 'user name', width: 200 },
     {
-      field: 'firstName',
-      headerName: 'First name',
+      field: 'ProductName',
+      headerName: 'ProductName',
       width: 250,
       editable: true,
     },
     {
-      field: 'joindate',
-      headerName: 'join date',
+      field: 'Price',
+      headerName: 'Price',
       width: 200,
       editable: true,
     },
     {
-      field: 'email',
-      headerName: 'email',
+      field: 'date',
+      headerName: 'date',
       width: 200,
       editable: true,
     
@@ -150,9 +160,9 @@ function GetUsers() {
   
   const rows = users.map((user, index) => ({
     id: user[0],
-    joindate: user[1].Date,
-    firstName: user[1].Title,
-    email:  user[1].Status,
+    ProductName: user[1].Name,
+    Price:user[1].Price,
+    date: user[1].Date,
   
   }));
 
@@ -184,18 +194,18 @@ function GetUsers() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Yoho you want to edit user details !
+            Yoho you want to edit infos !
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <IputItems>
               <Box sx={{ width: 500, maxWidth: "100%" }}>
                 <TextField
                   fullWidth
-                  label={Title}
+                  label={Price}
                   id="fullWidth"
                   className="Input"
-                  value={Title}
-                  onChange={(event) => setTitle(event.target.value)}
+                  value={Price}
+                  onChange={(event) => setPrice(event.target.value)}
                 />
               </Box>
               <Box
@@ -221,11 +231,11 @@ function GetUsers() {
               >
                 <TextField
                   fullWidth
-                  label="Status"
+                  label="Name"
                   id="fullWidth"
                   className="Input"
-                  value={Status}
-                  onChange={(event) => setStatus(event.target.value)}
+                  value={Name}
+                  onChange={(event) => setName(event.target.value)}
                 />
               </Box>
             </IputItems>
@@ -245,13 +255,32 @@ function GetUsers() {
           </Button>
         </Box>
       </Modal>
+
+      <Box sx={{ flexGrow: 1 }}>
+      <Grid
+        container
+        spacing={8}
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        marginTop='5%'
+      >
+    
+
+        <Grid item xs={12}>
+        <Item style={{ margin: "0px", paddingLeft: "2rem" }}>
+          <ProductChart chartData={users} />
+          </Item>
+        </Grid>
+      </Grid>
+    </Box>
     </GetUsersContainer>
   );
 }
 
 export default GetUsers;
 
-const GetUsersContainer = styled.div`
+const GetUsersContainer = styledReact.div`
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -264,7 +293,7 @@ width: 70rem;
     margin-left: 15%;
   }
 `;
-const IputItems = styled.form`
+const IputItems = styledReact.form`
   .Input {
     margin-bottom: 5%;
   }

@@ -1,12 +1,14 @@
 import React from 'react';
+import Analys from './components/Analys'
 function MainPage() {
   return (
     <div className="App">
-      <header className="App-header">
-     main page
-      </header>
+    <Analys/>
     </div>
   );
 }
 
+
+
+    
 export default MainPage;

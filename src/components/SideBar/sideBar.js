@@ -6,6 +6,7 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import menuItems from './component/sideBarItems';
 import { NavLink as RouterLink } from 'react-router-dom';
 import useStyles from './component/menuBarStyle';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 const MenuBar = (props) => {
     const [ menu, setMenu ] = useState({});
     const { className, ...rest } = props;
@@ -88,9 +89,7 @@ const MenuBar = (props) => {
           );
         });
       };
-      
 return (
-    
       <Drawer 
           anchor="left"
           classes={{ paper: classes.drawer }}
