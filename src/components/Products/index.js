@@ -41,9 +41,30 @@ function GetUsers() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [Price, setPrice] = useState("");
-  const [Date, setDate] = useState("");
-  const [Name, setName] = useState("");
+
+  const [Price, setPrice] = useState(()=>{
+    let localData = localStorage.getItem('price')
+    if(localData){
+      return localData
+    }
+    return ''
+  });
+
+  const [Date, setDate] = useState(()=>{
+    let localData = localStorage.getItem('Date')
+    if(localData){
+      return localData
+    }
+    return ''
+  });
+  
+  const [Name, setName] = useState(()=>{
+    let localData = localStorage.getItem('Name')
+    if(localData){
+      return localData
+    }
+    return ''
+  });
   const [useridentication, setuseridentication] = useState("");
   useEffect(() => {
     const fetchData = async () => {
@@ -111,6 +132,21 @@ function GetUsers() {
   };
 
 
+  useEffect(()=>{
+    localStorage.setItem('price',Price )
+
+  },[Price])
+  
+  useEffect(()=>{
+    localStorage.setItem('Date',Date )
+    
+  },[Date])
+  useEffect(()=>{
+    localStorage.setItem('Name',Name )
+    
+  },[Name])
+
+
 
   const columns = [
     { field: 'id', headerName: 'user name', width: 200 },
@@ -166,7 +202,7 @@ function GetUsers() {
   
   }));
 
-  
+
   return (
     <GetUsersContainer>
   <Box sx={{ height: 400, width: '100%' }}>

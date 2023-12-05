@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 function AddProduct() {
-    const [Price , setPrice] = useState('')
+    const [Price , setPrice] = useState()
     const [Date , setDate] = useState('')
     const [Name , setName] = useState('')
 
