@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import SendIcon from "@mui/icons-material/Send";
-
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 function InputFireBase() {
     const [Title , setTitle] = useState('')
     const [Date , setDate] = useState('')
@@ -30,11 +30,11 @@ function InputFireBase() {
     
   return (
     <IputItems  onSubmit={SubmitFireBase}>
-      <h1 className='status'>welcome To your TODO LIST</h1>
+      <p  className='status'>  <PersonAddIcon  style={{color:"#00abff" }}/> Add user </p >
       <Box sx={{ width: 500, maxWidth: "100%" }}>
         <TextField
           fullWidth
-          label="Title"
+          label="name"
           id="fullWidth"
           className="Input"
           value={Title}
@@ -64,7 +64,7 @@ function InputFireBase() {
       >
         <TextField 
         fullWidth 
-        label="Status" 
+        label="email" 
         id="fullWidth" 
         className="Input"  
         value={Status}
@@ -82,11 +82,6 @@ function InputFireBase() {
         Send it to me
       </Button>
 
-      <Link to="/UsersInDB">
-  <Button variant="outlined" size="medium" className="ShowDB">
-    show DB 
-  </Button>
-</Link>
     </IputItems>
   );
 }
@@ -94,21 +89,18 @@ function InputFireBase() {
 export default InputFireBase;
 
 const IputItems = styled.form`
-
-margin-top: 10%;
+align-items: center;
+justify-content: center;
+display: flex;
+flex-direction: column;
 .status{
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  margin-bottom: 10%;
-
+  font-size: large;
+  margin-bottom: 5%;
 }
   .Input {
-  
     margin-bottom: 10%;
   }
   .ShowDB{
     margin-left: 14.5rem;
-
   }
 `;
